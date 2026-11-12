@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/Button";
-import MenuCategorySection from "@/components/menu/MenuCategorySection";
-import MenuNav from "@/components/menu/MenuNav";
-import { menuCategories } from "@/lib/data";
+import MenuBrowser from "@/components/menu/MenuBrowser";
+import { menuCategories } from "@/lib/menu";
 import { PRIMARY_TEL, site } from "@/lib/site";
 import "./menu.css";
 
@@ -32,14 +31,10 @@ export default function MenuPage() {
         </div>
       </section>
 
-      <MenuNav categories={menuCategories.map(({ id, navLabel }) => ({ id, label: navLabel }))} />
+      <MenuBrowser categories={menuCategories} />
 
-      <section className="section menu-details">
+      <section className="section menu-cta-section">
         <div className="container">
-          {menuCategories.map((category) => (
-            <MenuCategorySection key={category.id} category={category} />
-          ))}
-
           <div className="order-cta-box text-center">
             <p className="label-2 section-subtitle">Ready To Experience Authentic Taste?</p>
             <h2 className="headline-1 order-cta-title">Book Your Table or Order Now</h2>
