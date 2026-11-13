@@ -1,36 +1,49 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink, SectionHeading } from "../Button";
-import { featuredDishes, formatPrice } from "@/lib/data";
+import { getMenu, getSite } from "@/lib/content";
+import { featuredDishNames } from "@/lib/data";
+import { formatMenuPrice } from "@/lib/menu";
 
-export default function FeaturedMenu() {
+/** Home page "Delicious Menu": the chosen dishes, with live names, prices and photos from the menu. */
+export default async function FeaturedMenu() {
+  const [menu, site] = await Promise.all([getMenu(), getSite()]);
+
+  const dishes = featuredDishNames.flatMap((name) => {
+    for (const category of menu) {
+      const item = category.items.find((i) => i.name === name);
+      if (item) return [{ ...item, category: category.title, categoryId: category.id }];
+    }
+    return []; // Dish removed or renamed in the menu → simply not shown.
+  });
+
   return (
     <section className="section menu" aria-label="menu" id="menu">
       <div className="container">
         <SectionHeading subtitle="Special Selection" title="Delicious Menu" center />
 
         <ul className="grid-list">
-          {featuredDishes.map((dish) => (
+          {dishes.map((dish) => (
             <li key={dish.name}>
               <div className="menu-card hover:card">
                 <figure className="card-banner img-holder" style={{ "--width": 100, "--height": 100 } as React.CSSProperties}>
-                  <Image src={dish.image} width={100} height={100} alt={dish.name} className="img-cover" />
+                  {dish.image && (
+                    <Image src={dish.image} width={100} height={100} alt={dish.name} className="img-cover" />
+                  )}
                 </figure>
 
                 <div>
                   <div className="title-wrapper">
                     <h3 className="title-3">
-                      <Link href="/menu" className="card-title">
+                      <Link href={`/menu#${dish.categoryId}`} className="card-title">
                         {dish.name}
                       </Link>
                     </h3>
 
-                    {dish.badge && <span className="badge label-1">{dish.badge}</span>}
-
-                    <span className="span title-2">{formatPrice(dish.price)}</span>
+                    <span className="span title-2">{formatMenuPrice(dish.price)}</span>
                   </div>
 
-                  <p className="card-text label-1">{dish.description}</p>
+                  <p className="card-text label-1">{dish.category}</p>
                 </div>
               </div>
             </li>
@@ -38,8 +51,7 @@ export default function FeaturedMenu() {
         </ul>
 
         <p className="menu-text text-center">
-          Daily open from <span className="span">1:00 PM</span> to <span className="span">1:00 AM</span> on NH-8
-          Kajipura, Kheda
+          Daily open <span className="span">{site.hours}</span> on NH-8 Kajipura, Kheda
         </p>
 
         <ButtonLink href="/menu" label="View Full Menu" />

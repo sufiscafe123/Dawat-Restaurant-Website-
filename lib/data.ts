@@ -37,59 +37,18 @@ export const services = [
   { image: "/images/service-3.jpg", title: "Seafood & Specials" },
 ];
 
-export type FeaturedDish = {
-  image: string;
-  name: string;
-  price: number;
-  description: string;
-  badge?: string;
-};
-
-export const featuredDishes: FeaturedDish[] = [
-  {
-    image: "/images/menu-1.png",
-    name: "Dawat Sp. Chicken Handi",
-    price: 380,
-    badge: "Popular",
-    description:
-      "Rich, slow-simmered handi gravy with tender chicken cuts, crushed black pepper & fresh coriander.",
-  },
-  {
-    image: "/images/menu-2.png",
-    name: "Mutton Mughlai Rogan Josh",
-    price: 440,
-    description:
-      "Classic Kashmiri-style tender lamb cooked in royal gravy infused with whole spices and ratan jot.",
-  },
-  {
-    image: "/images/menu-3.png",
-    name: "Tandoori Chicken Platter",
-    price: 360,
-    description:
-      "Whole spring chicken steeped in curd, Kashmiri chili marinade, roasted in a clay tandoor.",
-  },
-  {
-    image: "/images/menu-4.png",
-    name: "Hyderabadi Dum Biryani",
-    price: 320,
-    badge: "Chef Signature",
-    description:
-      "Dum-cooked long basmati rice layered with caramelized onions, fresh mint, pure ghee & spiced meat.",
-  },
-  {
-    image: "/images/menu-5.png",
-    name: "Coastal Fried Fish / Pomfret",
-    price: 490,
-    description:
-      "Fresh coastal catch crusted in aromatic ground spices, pan-seared to crispy golden perfection.",
-  },
-  {
-    image: "/images/menu-6.png",
-    name: "Royal Shahi Tukda",
-    price: 160,
-    description:
-      "Crispy ghee-fried bread dipped in cardamom syrup, topped with thick saffron rabri and silver vark.",
-  },
+/**
+ * Dishes shown in the home page "Delicious Menu" section, in this order.
+ * Names must match the menu exactly; price and photo are taken from the menu,
+ * so they always stay in sync with the Menu page (and admin changes).
+ */
+export const featuredDishNames = [
+  "Chicken Barbeque Sizzler",
+  "Chicken Malai Tikka Sizzler",
+  "Leg Dhamaka",
+  "Raan Biryani",
+  "Sea Food Platter",
+  "Barbeque Platter",
 ];
 
 export const features = [
@@ -159,5 +118,3 @@ export const facilities: { icon: FacilityIcon; title: string; text: string }[] =
   { icon: "cafe", title: "Sufi's Cafe Nearby", text: "Round off your meal with a visit to our Sufi's Cafe, just nearby." },
 ];
 
-export const formatPrice = (value: number, decimals = 0) =>
-  `₹${value.toFixed(decimals)}`;
