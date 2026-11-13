@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { ButtonLink } from "./Button";
 import { navLinks } from "@/lib/nav";
-import { PRIMARY_TEL, site, telHref } from "@/lib/site";
+import { useSite } from "@/components/SiteProvider";
+import { primaryTel, telHref } from "@/lib/site";
 
 function Logo() {
   return (
@@ -18,6 +19,8 @@ function Logo() {
 }
 
 export default function Header() {
+  const site = useSite();
+  const PRIMARY_TEL = primaryTel(site);
   const pathname = usePathname();
   const [navOpen, setNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

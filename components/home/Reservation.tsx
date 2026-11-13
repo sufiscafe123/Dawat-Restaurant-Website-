@@ -3,7 +3,8 @@
 import type { FormEvent } from "react";
 import { IoCalendarClearOutline, IoChevronDown, IoPersonOutline, IoTimeOutline } from "react-icons/io5";
 import { Button } from "../Button";
-import { PRIMARY_TEL, site } from "@/lib/site";
+import { useSite } from "@/components/SiteProvider";
+import { primaryTel } from "@/lib/site";
 
 const partySizes = ["1 Person", "2 Person", "3 Person", "4 Person", "5 Person", "6 Person", "7 Person", "Family / Big Party"];
 
@@ -15,10 +16,8 @@ const timeSlots = Array.from({ length: 12 }, (_, i) => {
   return `${String(hour12).padStart(2, "0")}:00 ${suffix}`;
 });
 
-const WHATSAPP_NUMBER = site.phones.primary.tel.replace(/\D/g, "");
-
-/** Sends the booking details to the restaurant on WhatsApp, pre-filled. */
-function handleSubmit(e: FormEvent<HTMLFormElement>) {
+/** Sends the booking details to the restaurant's WhatsApp number, pre-filled. */
+function sendBooking(e: FormEvent<HTMLFormElement>, whatsappNumber: string) {
   e.preventDefault();
   const data = new FormData(e.currentTarget);
   const field = (name: string) => String(data.get(name) ?? "").trim();
@@ -34,7 +33,8 @@ function handleSubmit(e: FormEvent<HTMLFormElement>) {
   const message = field("message");
   if (message) lines.push(`Note: ${message}`);
 
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+  const digits = whatsappNumber.replace(/\D/g, "");
+  const url = `https://wa.me/${digits}?text=${encodeURIComponent(lines.join("\n"))}`;
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
@@ -43,13 +43,15 @@ function handleSubmit(e: FormEvent<HTMLFormElement>) {
  * overlaps the testimonial above it.
  */
 export default function Reservation({ standalone = false }: { standalone?: boolean }) {
+  const site = useSite();
+  const PRIMARY_TEL = primaryTel(site);
   const today = new Date().toISOString().split("T")[0];
 
   return (
     <section className={`reservation${standalone ? " reservation-standalone" : ""}`} id="reservation">
       <div className="container">
         <div className="form reservation-form bg-black-10">
-          <form onSubmit={handleSubmit} className="form-left">
+          <form onSubmit={(e) => sendBooking(e, site.whatsappNumber)} className="form-left">
             <h2 className="headline-1 text-center">Online Reservation</h2>
 
             <p className="form-text text-center">

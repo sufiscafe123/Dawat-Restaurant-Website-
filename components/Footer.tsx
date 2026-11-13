@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "./Button";
-import { PRIMARY_TEL, site, telHref } from "@/lib/site";
+import { getSite } from "@/lib/content";
+import { primaryTel, telHref } from "@/lib/site";
 
 const pageLinks = [
   { href: "/", label: "Home" },
@@ -13,14 +14,15 @@ const pageLinks = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-const socialLinks = [
-  { href: site.social.facebook, label: "Facebook" },
-  { href: site.social.instagram, label: "Instagram" },
-  { href: site.social.maps, label: "Google Map Location" },
-];
-
-export default function Footer() {
+export default async function Footer() {
+  const site = await getSite();
   const { primary, secondary, tertiary } = site.phones;
+
+  const socialLinks = [
+    { href: site.social.facebook, label: "Facebook" },
+    { href: site.social.instagram, label: "Instagram" },
+    { href: site.social.maps, label: "Google Map Location" },
+  ];
 
   return (
     <footer
@@ -37,7 +39,7 @@ export default function Footer() {
 
             <address className="body-4">{site.address.full}</address>
 
-            <a href={PRIMARY_TEL} className="body-4 contact-link">
+            <a href={primaryTel(site)} className="body-4 contact-link">
               Primary: {primary.label}
             </a>
             <a href={telHref(secondary.tel)} className="body-4 contact-link">
@@ -75,7 +77,7 @@ export default function Footer() {
 
           <ul className="footer-list">
             {socialLinks.map(({ href, label }) => (
-              <li key={href}>
+              <li key={label}>
                 <a href={href} target="_blank" rel="noopener noreferrer" className="label-2 footer-link hover-underline">
                   {label}
                 </a>

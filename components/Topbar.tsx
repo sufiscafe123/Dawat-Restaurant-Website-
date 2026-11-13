@@ -1,7 +1,9 @@
 import { IoCallOutline, IoLocationOutline, IoTimeOutline } from "react-icons/io5";
-import { site, telHref } from "@/lib/site";
+import { getSite } from "@/lib/content";
+import { telHref } from "@/lib/site";
 
-export default function Topbar() {
+export default async function Topbar() {
+  const site = await getSite();
   const { primary, secondary } = site.phones;
 
   return (
@@ -24,7 +26,7 @@ export default function Topbar() {
         </div>
 
         {[primary, secondary].map((phone, i) => (
-          <PhoneItem key={phone.tel} phone={phone} withSeparator={i > 0} />
+          <PhoneItem key={i} phone={phone} withSeparator={i > 0} />
         ))}
       </div>
     </div>

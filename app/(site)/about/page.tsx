@@ -4,7 +4,8 @@ import { IoCallOutline, IoLocationOutline, IoTimeOutline } from "react-icons/io5
 import { ButtonLink, SectionHeading } from "@/components/Button";
 import Facilities from "@/components/Facilities";
 import Features from "@/components/home/Features";
-import { PRIMARY_TEL, site, telHref } from "@/lib/site";
+import { getAbout, getSite } from "@/lib/content";
+import { primaryTel, telHref } from "@/lib/site";
 import "./about.css";
 
 export const metadata: Metadata = {
@@ -12,13 +13,6 @@ export const metadata: Metadata = {
   description:
     "The story of Dawat Restaurant on NH-8 Kajipura, Kheda — serving authentic Mughlai, charcoal BBQ, Raan Biryani and seafood since 2019, with rooftop & garden seating and free parking.",
 };
-
-const highlights = [
-  { value: "2019", label: "Serving Kheda since" },
-  { value: "12 hrs", label: "Open daily, 1 PM – 1 AM" },
-  { value: "Rooftop", label: "& open-air garden seating" },
-  { value: "Free", label: "Spacious highway parking" },
-];
 
 const specialties = [
   {
@@ -38,8 +32,9 @@ const specialties = [
   },
 ];
 
-
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [site, about] = await Promise.all([getSite(), getAbout()]);
+  const PRIMARY_TEL = primaryTel(site);
   const { primary, secondary, tertiary } = site.phones;
 
   return (
@@ -49,10 +44,7 @@ export default function AboutPage() {
         <div className="container">
           <p className="label-2 section-subtitle">{site.tagline}</p>
           <h1 className="display-1 hero-title">About Dawat</h1>
-          <p className="body-2 hero-text">
-            A family restaurant on NH-8 Kajipura, Kheda, serving authentic Mughlai, charcoal BBQ and seafood
-            since 2019.
-          </p>
+          <p className="body-2 hero-text">{about.heroText}</p>
         </div>
       </section>
 
@@ -74,21 +66,13 @@ export default function AboutPage() {
           </figure>
 
           <div className="about-story-content">
-            <SectionHeading subtitle="Our Story" title="Where Every Flavor Tells a Story" id="story-label" />
+            <SectionHeading subtitle="Our Story" title={about.storyTitle} id="story-label" />
 
-            <p className="section-text">
-              Dawat began in 2019 with a simple idea: bring the royal flavours of Mughlai cooking and the smoky
-              magic of charcoal BBQ to Kheda, at a place where families and friends feel at home.
-            </p>
-            <p className="section-text">
-              Today we are known for our irresistible non-vegetarian delicacies, our signature Raan Biryani and
-              fresh seafood specialties. Every dish is prepared fresh, with whole spices, real charcoal and
-              recipes we have perfected over the years.
-            </p>
-            <p className="section-text">
-              Whether you dine under the stars in our open-air garden, enjoy the breeze on the rooftop, or stop by
-              on the highway, you will always find a warm welcome and plenty of free parking right on NH-8.
-            </p>
+            {about.storyParagraphs.map((text, i) => (
+              <p key={i} className="section-text">
+                {text}
+              </p>
+            ))}
 
             <div className="btn-group about-story-actions">
               <ButtonLink href="/menu" label="Explore Menu" />
@@ -102,8 +86,8 @@ export default function AboutPage() {
       <section className="about-highlights bg-black-10" aria-label="Highlights">
         <div className="container">
           <ul className="about-highlights-list">
-            {highlights.map((item) => (
-              <li key={item.label} className="about-highlight">
+            {about.highlights.map((item, i) => (
+              <li key={i} className="about-highlight">
                 <p className="about-highlight-value">{item.value}</p>
                 <p className="about-highlight-label">{item.label}</p>
               </li>

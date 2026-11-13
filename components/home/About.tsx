@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { ButtonLink } from "../Button";
-import { PRIMARY_TEL, site } from "@/lib/site";
+import { useAbout, useSite } from "@/components/SiteProvider";
+import { primaryTel } from "@/lib/site";
 
 /** Moves layered images opposite to the cursor for a subtle depth effect. */
 function useParallax() {
@@ -33,6 +34,9 @@ function useParallax() {
 
 export default function About() {
   const { bannerRef, floatRef } = useParallax();
+  const site = useSite();
+  const about = useAbout();
+  const PRIMARY_TEL = primaryTel(site);
 
   return (
     <section className="section about text-center" aria-labelledby="about-label" id="about">
@@ -44,12 +48,7 @@ export default function About() {
 
           <h2 className="headline-1 section-title">{site.tagline}</h2>
 
-          <p className="section-text">
-            Welcome to Dawat Restaurant in Kheda, Gujarat. Serving authentic culinary perfection since 2019!
-            Famous for our irresistible Non-Vegetarian delicacies, authentic Mughlai cuisine, charcoal-fired
-            BBQ, signature Raan Biryani, and fresh seafood specialties. Relax in our down-to-earth ambiance
-            featuring spacious outdoor and rooftop seating, backed by massive free parking space right on NH-8.
-          </p>
+          <p className="section-text">{about.homeText}</p>
 
           <div className="contact-label">Book Through Call</div>
 
