@@ -12,19 +12,15 @@ import {
 } from "react-icons/io5";
 import { ButtonLink, SectionHeading } from "@/components/Button";
 import Reservation from "@/components/home/Reservation";
-import { getSite } from "@/lib/content";
-import { primaryTel, telHref, type Site } from "@/lib/site";
+import { PRIMARY_TEL, site, telHref } from "@/lib/site";
 import "./contact.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const site = await getSite();
-  return {
-    title: "Contact Us",
-    description: `Call ${site.phones.primary.label}, WhatsApp us or visit Dawat Restaurant on NH-8 Kajipura, Kheda. Open daily ${site.hours}. Book your table online.`,
-  };
-}
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description: `Call ${site.phones.primary.label}, WhatsApp us or visit Dawat Restaurant on NH-8 Kajipura, Kheda. Open daily ${site.hours}. Book your table online.`,
+};
 
-const getFaqs = (site: Site): { q: string; a: ReactNode }[] => [
+const faqs: { q: string; a: ReactNode }[] = [
   {
     q: "What are your opening hours?",
     a: <>We are open every day of the week, from {site.hours}.</>,
@@ -56,10 +52,7 @@ const getFaqs = (site: Site): { q: string; a: ReactNode }[] => [
   },
 ];
 
-export default async function ContactPage() {
-  const site = await getSite();
-  const PRIMARY_TEL = primaryTel(site);
-  const faqs = getFaqs(site);
+export default function ContactPage() {
   const { primary, secondary, tertiary } = site.phones;
 
   const cards = [

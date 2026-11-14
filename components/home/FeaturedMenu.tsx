@@ -1,22 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink, SectionHeading } from "../Button";
-import { getMenu, getSite } from "@/lib/content";
 import { featuredDishNames } from "@/lib/data";
-import { formatMenuPrice } from "@/lib/menu";
+import { formatMenuPrice, menuCategories } from "@/lib/menu";
+import { site } from "@/lib/site";
 
-/** Home page "Delicious Menu": the chosen dishes, with live names, prices and photos from the menu. */
-export default async function FeaturedMenu() {
-  const [menu, site] = await Promise.all([getMenu(), getSite()]);
+/** Home page "Delicious Menu": the chosen dishes, with name, price and photo from lib/menu.ts. */
+const dishes = featuredDishNames.flatMap((name) => {
+  for (const category of menuCategories) {
+    const item = category.items.find((i) => i.name === name);
+    if (item) return [{ ...item, category: category.title, categoryId: category.id }];
+  }
+  return []; // Dish not in the menu → simply not shown.
+});
 
-  const dishes = featuredDishNames.flatMap((name) => {
-    for (const category of menu) {
-      const item = category.items.find((i) => i.name === name);
-      if (item) return [{ ...item, category: category.title, categoryId: category.id }];
-    }
-    return []; // Dish removed or renamed in the menu → simply not shown.
-  });
-
+export default function FeaturedMenu() {
   return (
     <section className="section menu" aria-label="menu" id="menu">
       <div className="container">

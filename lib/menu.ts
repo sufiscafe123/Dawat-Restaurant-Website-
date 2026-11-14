@@ -1,14 +1,12 @@
 /**
  * Dawat master menu: 18 categories, 245 items.
- * Prices are final (already include the +20% revision). Items without a price are "As Per Size".
+ * Prices are final (already include the +20% revision). Do not change names or prices
+ * unless an updated menu is supplied. Items without a price are "As Per Size".
  *
- * This is the DEFAULT menu. The admin panel imports it into Supabase once; after that the
- * website shows the menu from Supabase, and all changes are made in the admin panel.
+ * To add a photo later: put the file in public/images and add `image: "/images/..."` to the item.
  */
 
-export const MENU_ICONS = ["leaf", "soup", "flame", "noodles", "restaurant", "crown", "fish", "star", "bread", "dessert"] as const;
-
-export type MenuIcon = (typeof MENU_ICONS)[number];
+export type MenuIcon = "leaf" | "soup" | "flame" | "noodles" | "restaurant" | "crown" | "fish" | "star" | "bread" | "dessert";
 
 export type MenuItem = {
   name: string;

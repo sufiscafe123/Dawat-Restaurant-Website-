@@ -16,8 +16,7 @@ import {
 } from "react-icons/io5";
 import { TbBowlChopsticks, TbBread, TbCrown, TbSoup } from "react-icons/tb";
 import { formatMenuPrice, type MenuCategory, type MenuIcon } from "@/lib/menu";
-import { useSite } from "@/components/SiteProvider";
-import { primaryTel } from "@/lib/site";
+import { PRIMARY_TEL, site } from "@/lib/site";
 
 const icons: Record<MenuIcon, IconType> = {
   leaf: IoLeafOutline,
@@ -34,8 +33,6 @@ const icons: Record<MenuIcon, IconType> = {
 
 /** Category tabs: only the selected category's dishes are shown. */
 export default function MenuBrowser({ categories }: { categories: MenuCategory[] }) {
-  const site = useSite();
-  const PRIMARY_TEL = primaryTel(site);
   const [activeId, setActiveId] = useState(categories[0].id);
   const tabsRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);

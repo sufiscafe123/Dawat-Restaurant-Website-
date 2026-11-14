@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/Button";
 import MenuBrowser from "@/components/menu/MenuBrowser";
-import { getMenu, getSite } from "@/lib/content";
-import { primaryTel } from "@/lib/site";
+import { menuCategories } from "@/lib/menu";
+import { PRIMARY_TEL, site } from "@/lib/site";
 import "./menu.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const site = await getSite();
-  return {
-    title: "Our Menu",
-    description: `Explore the authentic menu of Dawat Restaurant in Kheda, Gujarat. Famous for Mughlai, BBQ, Sizzlers, Seafood & Chicken specialties. Call ${site.phones.primary.label} for bookings.`,
-  };
-}
+export const metadata: Metadata = {
+  title: "Our Menu",
+  description: `Explore the authentic menu of Dawat Restaurant in Kheda, Gujarat. Famous for Mughlai, BBQ, Sizzlers, Seafood & Chicken specialties. Call ${site.phones.primary.label} for bookings.`,
+};
 
-export default async function MenuPage() {
-  const [site, menuCategories] = await Promise.all([getSite(), getMenu()]);
-  const PRIMARY_TEL = primaryTel(site);
+export default function MenuPage() {
   const phone = site.phones.primary.label;
 
   return (

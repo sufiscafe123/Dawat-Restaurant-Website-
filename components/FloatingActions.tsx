@@ -3,13 +3,10 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoCallOutline, IoChevronUpOutline, IoLogoWhatsapp } from "react-icons/io5";
-import { useSite } from "@/components/SiteProvider";
-import { primaryTel } from "@/lib/site";
+import { PRIMARY_TEL, site } from "@/lib/site";
 
 /** Call / WhatsApp / back-to-top buttons pinned to the bottom-right corner. */
 export default function FloatingActions() {
-  const site = useSite();
-  const PRIMARY_TEL = primaryTel(site);
   const pathname = usePathname();
   const [showTop, setShowTop] = useState(false);
 

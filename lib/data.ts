@@ -39,8 +39,8 @@ export const services = [
 
 /**
  * Dishes shown in the home page "Delicious Menu" section, in this order.
- * Names must match the menu exactly; price and photo are taken from the menu,
- * so they always stay in sync with the Menu page (and admin changes).
+ * Names must match lib/menu.ts exactly; price and photo are taken from the menu,
+ * so they always match the Menu page.
  */
 export const featuredDishNames = [
   "Chicken Barbeque Sizzler",

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { ButtonLink, SectionHeading } from "@/components/Button";
 import Facilities from "@/components/Facilities";
 import Gallery from "@/components/gallery/Gallery";
-import { getSite } from "@/lib/content";
-import { primaryTel } from "@/lib/site";
+import { PRIMARY_TEL, site } from "@/lib/site";
 import "./gallery.css";
 
 export const metadata: Metadata = {
@@ -12,10 +11,7 @@ export const metadata: Metadata = {
     "Photos of Dawat Restaurant, Kheda — our Mughlai & BBQ dishes, open-air garden and rooftop seating on NH-8 Kajipura.",
 };
 
-export default async function GalleryPage() {
-  const site = await getSite();
-  const PRIMARY_TEL = primaryTel(site);
-
+export default function GalleryPage() {
   return (
     <>
       <section className="page-hero text-center" style={{ backgroundImage: "url('/images/about-overlay.webp')" }}>

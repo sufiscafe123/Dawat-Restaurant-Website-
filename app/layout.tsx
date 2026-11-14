@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Forum } from "next/font/google";
+import FloatingActions from "@/components/FloatingActions";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Preloader from "@/components/Preloader";
+import Topbar from "@/components/Topbar";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -30,11 +35,19 @@ export const viewport: Viewport = {
   themeColor: "#0d0c0a",
 };
 
-/** Shared by the public website (app/(site)) and the admin panel (app/admin). */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${dmSans.variable} ${forum.variable}`}>
-      <body id="top">{children}</body>
+      <body id="top">
+        <Preloader />
+        <Topbar />
+        <Header />
+        <main>
+          <article>{children}</article>
+        </main>
+        <Footer />
+        <FloatingActions />
+      </body>
     </html>
   );
 }
